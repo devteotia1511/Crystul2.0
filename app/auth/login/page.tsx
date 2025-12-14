@@ -1,0 +1,212 @@
+"use client";
+
+import { signIn, useSession } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Mail, Lock, Chrome, Home } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // Redirect if already authenticated
+  if (status === "authenticated" && session) {
+    router.push("/home");
+    return null;
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      setIsGoogleLoading(true);
+      await signIn("google", { callbackUrl: "/home" });
+    } catch (error) {
+      toast.error("Google sign-in failed. Please try again.");
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleCredentialsLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error("Invalid credentials. Please try again.");
+      } else if (result?.ok) {
+        toast.success("Login successful!");
+        router.push("/home");
+      }
+    } catch (error) {
+      toast.error("Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-32 h-10 m-2 rounded-full overflow-hidden bg-background/80 border border-border flex items-center justify-center">
+              <img 
+                src="/crystul.png" 
+                alt="Crystul Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="text-foreground hover:text-primary hover:bg-primary/10">
+              <Home className="h-6 w-6" />
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      {/* Login Form */}
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] p-4">
+        <Card className="w-full max-w-md shadow-xl border-border bg-card/50">
+          <CardHeader className="text-center">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-32 h-10 m-2 rounded-full overflow-hidden bg-background/80 border border-border flex items-center justify-center">
+                <img 
+                  src="/crystul.png" 
+                  alt="Crystul Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+            <CardTitle className="text-2xl font-display font-bold text-foreground">Welcome back</CardTitle>
+            <CardDescription className="font-sans text-muted-foreground">
+              Sign in to your account to continue building
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {/* Google Login Button */}
+            <Button
+              variant="outline"
+              className="w-full font-medium border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              onClick={handleGoogleLogin}
+              disabled={isGoogleLoading}
+            >
+              {isGoogleLoading ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+              ) : (
+                <Chrome className="mr-2 h-4 w-4" />
+              )}
+              {isGoogleLoading ? "Signing in..." : "Continue with Google"}
+            </Button>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="bg-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-primary font-sans">
+                  Or continue with email
+                </span>
+              </div>
+            </div>
+
+            {/* Email Form */}
+            <form onSubmit={handleCredentialsLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="font-medium text-foreground">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-primary" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10 font-sans bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password" className="font-medium text-foreground">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-primary" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10 font-sans bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full font-display font-semibold bg-primary text-primary-foreground hover:opacity-90"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
+            </form>
+
+            <div className="text-center text-sm">
+              <Link href="#" className="text-primary hover:underline font-sans">
+                Forgot your password?
+              </Link>
+            </div>
+
+            <div className="text-center text-sm text-muted-foreground font-sans">
+              Don&apos;t have an account?{" "}
+              <Link href="/auth/register" className="text-primary hover:underline">
+                Sign up
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+} 
