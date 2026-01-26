@@ -1,0 +1,15 @@
+{
+  "/ai-assistant/page": "app/ai-assistant/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/teams/route": "app/api/teams/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/auth/register/page": "app/auth/register/page.js",
+  "/create/page": "app/create/page.js",
+  "/explore/page": "app/explore/page.js",
+  "/fund-raiser/page": "app/fund-raiser/page.js",
+  "/home/page": "app/home/page.js",
+  "/page": "app/page.js",
+  "/professionals/page": "app/professionals/page.js",
+  "/search/page": "app/search/page.js"
+}
