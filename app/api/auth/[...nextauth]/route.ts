@@ -4,9 +4,9 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getOptionalEnvVar } from "@/lib/env-validation";
-import dbConnect from "@/lib/mongodb";
-import User from "@/models/User";
-import bcrypt from "bcryptjs";
+// import dbConnect from "@/lib/mongodb";
+// import User from "@/models/User";
+// import bcrypt from "bcryptjs";
 
 // Keep 'export' here for authOptions
 export const authOptions: NextAuthOptions = { // 'authOptions' is now exported again
@@ -28,6 +28,17 @@ export const authOptions: NextAuthOptions = { // 'authOptions' is now exported a
           return null;
         }
 
+        // For now, allow demo login without database to isolate the issue
+        console.log('Demo login attempt:', credentials.email);
+        return {
+          id: 'demo-user',
+          email: credentials.email,
+          name: 'Demo User',
+          image: null
+        };
+
+        // Original database code (commented out for testing)
+        /*
         try {
           const dbConnection = await dbConnect();
           
@@ -65,6 +76,7 @@ export const authOptions: NextAuthOptions = { // 'authOptions' is now exported a
           console.error("Auth error:", error);
           return null;
         }
+        */
       }
     })
   ],
@@ -73,29 +85,12 @@ export const authOptions: NextAuthOptions = { // 'authOptions' is now exported a
   },
   callbacks: {
     async signIn({ user, account, profile }) {
+      console.log('Sign in attempt:', { provider: account?.provider, email: user.email });
+      
+      // Simplified Google sign-in without database for testing
       if (account?.provider === 'google') {
-        try {
-          const dbConnection = await dbConnect();
-          if (dbConnection) {
-            const existingUser = await User.findOne({ email: user.email });
-            if (!existingUser) {
-              await User.create({
-                name: user.name,
-                email: user.email,
-                avatar: user.image,
-                skills: [],
-                interests: [],
-                experience: 'Beginner',
-                lookingFor: [],
-                isPublic: true,
-                createdAt: new Date(),
-              });
-            }
-          }
-        } catch (err) {
-          console.error('Google sign-in user creation error:', err);
-          return false; // Prevents redirect to dashboard, shows error page
-        }
+        console.log('Google sign-in successful for:', user.email);
+        return true;
       }
       return true;
     },
