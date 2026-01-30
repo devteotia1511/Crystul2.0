@@ -1,7 +1,4 @@
 {
-  "/ai-assistant/page": "app/ai-assistant/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/auth/login/page": "app/auth/login/page.js",
-  "/core-problems/page": "app/core-problems/page.js",
   "/page": "app/page.js"
 }

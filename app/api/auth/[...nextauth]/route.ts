@@ -3,7 +3,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getRequiredEnvVar } from "@/lib/env-validation";
+import { getOptionalEnvVar } from "@/lib/env-validation";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
@@ -11,10 +11,12 @@ import bcrypt from "bcryptjs";
 // Keep 'export' here for authOptions
 export const authOptions: NextAuthOptions = { // 'authOptions' is now exported again
   providers: [
-    GoogleProvider({
-      clientId: getRequiredEnvVar("GOOGLE_CLIENT_ID"),
-      clientSecret: getRequiredEnvVar("GOOGLE_CLIENT_SECRET"),
-    }),
+    ...(getOptionalEnvVar("GOOGLE_CLIENT_ID", "") && getOptionalEnvVar("GOOGLE_CLIENT_SECRET", "") ? [
+      GoogleProvider({
+        clientId: getOptionalEnvVar("GOOGLE_CLIENT_ID", ""),
+        clientSecret: getOptionalEnvVar("GOOGLE_CLIENT_SECRET", ""),
+      })
+    ] : []),
     CredentialsProvider({
       name: "credentials",
       credentials: {

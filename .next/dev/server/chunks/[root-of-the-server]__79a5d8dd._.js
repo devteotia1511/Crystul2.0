@@ -332,10 +332,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$bcryptjs$2f$
 ;
 const authOptions = {
     providers: [
-        (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$providers$2f$google$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
-            clientId: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getRequiredEnvVar"])("GOOGLE_CLIENT_ID"),
-            clientSecret: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getRequiredEnvVar"])("GOOGLE_CLIENT_SECRET")
-        }),
+        ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getOptionalEnvVar"])("GOOGLE_CLIENT_ID", "") && (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getOptionalEnvVar"])("GOOGLE_CLIENT_SECRET", "") ? [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$providers$2f$google$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
+                clientId: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getOptionalEnvVar"])("GOOGLE_CLIENT_ID", ""),
+                clientSecret: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$env$2d$validation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getOptionalEnvVar"])("GOOGLE_CLIENT_SECRET", "")
+            })
+        ] : [],
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$providers$2f$credentials$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
             name: "credentials",
             credentials: {
