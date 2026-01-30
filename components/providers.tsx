@@ -3,7 +3,6 @@
 import { SessionProvider, useSession } from 'next-auth/react'
 import { ThemeProvider, useTheme as useNextTheme } from '@/components/theme-provider'
 import { useEffect, useState } from 'react'
-import { validateEnvironmentVariablesOnStartup } from '@/lib/env-validation'
 import { useRouter } from 'next/navigation'
 
 function ThemeController({ children }: { children: React.ReactNode }) {
@@ -29,9 +28,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   
   useEffect(() => {
     setMounted(true)
-    if (typeof window !== 'undefined') {
-      validateEnvironmentVariablesOnStartup()
-    }
+    // Remove environment validation from client-side
+    // if (typeof window !== 'undefined') {
+    //   validateEnvironmentVariablesOnStartup()
+    // }
   }, [])
 
   if (!mounted) {

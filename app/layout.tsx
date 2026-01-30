@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { Providers } from '@/components/providers';
+import { ErrorBoundary } from '@/components/error-boundary';
 import { Suspense } from 'react';
 
 
@@ -45,12 +46,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans`}>
-        <Providers>
-          <Suspense fallback={<LoadingFallback />}>
-            {children}
-          </Suspense>
-          <Toaster />
-        </Providers>
+        <ErrorBoundary>
+          <Providers>
+            <Suspense fallback={<LoadingFallback />}>
+              {children}
+            </Suspense>
+            <Toaster />
+          </Providers>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -15,3 +15,6 @@ Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
 [00:00:14.148] Browser WARN    Image with src "/image4.png" has legacy prop "layout". Did you forget to run the codemod?
 Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
 [00:00:14.439] Browser WARN    Image with src "http://localhost:3000/crystul.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:04:00.215] Server  LOG      ✓ Compiled in 187ms
+[00:04:21.108] Server  LOG      ✓ Compiled in 116ms
+[00:04:28.138] Server  LOG      ✓ Compiled in 135ms
