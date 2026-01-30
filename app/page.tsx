@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Zap, Target, Star, CheckCircle, Menu } from 'lucide-react';
 import Link from 'next/link';
-
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export default function HomePage() {
@@ -19,13 +18,13 @@ export default function HomePage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  const words = [
+  const words = useMemo(() => [
     'Dream Team',
     'Innovation',
     'Collaboration',
     'Success',
     'Startup'
-  ];
+  ], []);
 
   useEffect(() => {
     if (status === "authenticated" && session) {
@@ -36,11 +35,11 @@ export default function HomePage() {
   // Scroll effect for dynamic header
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Typewriter effect
+  // Typewriter effect - optimized
   useEffect(() => {
     const currentWord = words[currentWordIndex];
     
@@ -48,7 +47,7 @@ export default function HomePage() {
       // Typing out the word
       if (currentText.length < currentWord.length) {
         const timer = setTimeout(() => {
-          setCurrentText(currentWord.slice(0, currentText.length + 1));
+          setCurrentText(prev => prev + currentWord[prev.length]);
         }, 150);
         return () => clearTimeout(timer);
       } else {
@@ -61,10 +60,10 @@ export default function HomePage() {
     } else {
       // Deleting the word
       if (currentText.length > 0) {
-          const timer = setTimeout(() => {
-            setCurrentText(currentText.slice(0, -1));
+        const timer = setTimeout(() => {
+          setCurrentText(prev => prev.slice(0, -1));
         }, 100);
-          return () => clearTimeout(timer);
+        return () => clearTimeout(timer);
       } else {
         setIsDeleting(false);
         setCurrentWordIndex((prev) => (prev + 1) % words.length);
@@ -72,7 +71,7 @@ export default function HomePage() {
     }
   }, [currentText, isDeleting, currentWordIndex, words]);
 
-  // Reset text when word changes
+  // Reset text when word changes - optimized
   useEffect(() => {
     setCurrentText('');
   }, [currentWordIndex]);
@@ -80,19 +79,54 @@ export default function HomePage() {
   // Don't render if already authenticated
   if (status === "authenticated") return null;
 
-  // Dynamic header styles based on scroll
-  const isScrolled = scrollY > 50;
-  const headerBackground = isScrolled 
-    ? 'bg-background/95 backdrop-blur-md border-border shadow-lg' 
-    : 'bg-background/20 backdrop-blur-sm border-transparent';
-  const headerShape = isScrolled 
-    ? 'rounded-none border-b' 
-    : 'mx-4 mt-4 rounded-full border';
+  // Dynamic header styles based on scroll - optimized with useMemo
+  const headerStyles = useMemo(() => {
+    const isScrolled = scrollY > 50;
+    return {
+      background: isScrolled 
+        ? 'bg-background/95 backdrop-blur-md border-border shadow-lg' 
+        : 'bg-background/20 backdrop-blur-sm border-transparent',
+      shape: isScrolled 
+        ? 'rounded-none border-b' 
+        : 'mx-4 mt-4 rounded-full border'
+    };
+  }, [scrollY]);
+
+  // Memoize testimonials data for performance
+  const testimonials = useMemo(() => [
+    {
+      name: "Rohit Taneja",
+      title: "CEO, TechFlow",
+      content: "Crystul helped me find the perfect CTO for my SaaS startup. The matching algorithm is incredibly accurate!",
+      rating: 5
+    },
+    {
+      name: "Devendra Sharma",
+      title: "Founder, EcoCart",
+      content: "The collaboration tools are game-changing. We went from idea to MVP in just 3 months.",
+      rating: 5
+    },
+    {
+      name: "Priety Thapar",
+      title: "Co-founder, HealthSync",
+      content: "Found my business partner here and we&apos;ve already raised our seed round. Highly recommend!",
+      rating: 5
+    }
+  ], []);
+
+  // Memoize star rating component
+  const StarRating = useCallback(({ rating }: { rating: number }) => (
+    <div className="flex mb-4">
+      {[...Array(rating)].map((_, i) => (
+        <Star key={i} className="w-4 h-4 text-primary fill-current" />
+      ))}
+    </div>
+  ), []);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Dynamic Navigation Header */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBackground} ${headerShape}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerStyles.background} ${headerStyles.shape}`}>
         <div className="container mx-auto px-6 py-3 flex items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center">
@@ -111,11 +145,8 @@ export default function HomePage() {
             <Link href="/ai-assistant">
               <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">AI Assistant</span>
             </Link>
-            <Link href="/fund-raiser">
-              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Fund Raiser</span>
-            </Link>
-            <Link href="/promotions">
-              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Promotions</span>
+            <Link href="/core-problems">
+              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Core Problems</span>
             </Link>
           </div>
 
@@ -131,9 +162,7 @@ export default function HomePage() {
                 Get Started
               </Button>
             </Link>
-            {/* <Button variant="ghost" size="sm" className="w-10 h-10 p-0 rounded-full border border-border bg-background/50 hover:bg-primary/10">
-              <div className="w-5 h-5 bg-primary rounded-full"></div>
-            </Button> */}
+            
             
             {/* Mobile Menu */}
           <div className="md:hidden">
@@ -151,7 +180,7 @@ export default function HomePage() {
                   <Link href="/connect-founders">Connect with Founders</Link>
                 </DropdownMenuItem>
                   <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
-                    <Link href="/promotions">Promotions</Link>
+                    <Link href="/core-problems">Core Problems</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
                   <Link href="/auth/login">Sign In</Link>
@@ -207,9 +236,9 @@ export default function HomePage() {
                     Start Building <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Link href="/promotions">
+                <Link href="/core-problems">
                 <Button size="lg" variant="outline" className="text-lg px-8 py-6 font-display font-medium text-foreground border-primary hover:bg-primary hover:text-primary-foreground">
-                    View Promotions
+                    View Core Problems
                   </Button>
                 </Link>
               </div>
@@ -271,7 +300,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
                 <Target className="w-6 h-6 text-primary" />
               </div>
-              <CardTitle className="font-display text-foreground">Fundraising Section</CardTitle>
+              <CardTitle className="font-display text-foreground">Idea Validation</CardTitle>
             </CardHeader>
           </Card>
 
@@ -325,10 +354,10 @@ export default function HomePage() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-display font-bold text-foreground mb-4">
-            Raise Funding with Our Partners
+            An End-to-End StartUp Ecosystem
           </h2>
           <p className="text-lg font-sans text-muted-foreground">
-            Registered teams can connect with funding partners, pitch, and raise for growth
+            A digital startup ecosystem that acts as an operating system for founders — guiding them from idea validation to team formation, execution, and funding, all inside one structured platform starting from colleges
           </p>
         </div>
 
@@ -342,7 +371,7 @@ export default function HomePage() {
               BUILD A POWERHOUSE TEAM
             </h3>
             <p className="text-muted-foreground font-sans">
-            Form the ideal founding team by connecting with top professionals and domain experts who align with your startup’s vision and mission. Crystul’s intelligent matching algorithm ensures you find the right co-founders, collaborators, and advisors through transparent profiling and equitable collaboration options. Build a strong foundation for your startup by surrounding yourself with the right people from day one.
+            Teams are formed through a structured role-based system where founders list required skills, interested members apply, and collaborators are selected based on skill match, shared vision, and startup stage needs.
             </p>
           </div>
         </div>
@@ -389,26 +418,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scrolling partner logos */}
-        <div className="relative overflow-hidden py-6 border-t border-b border-border -mx-4 sm:-mx-6 lg:-mx-8">
-          <div className="flex items-center gap-12 whitespace-nowrap animate-[marquee_20s_linear_infinite]">
-            <div className="flex items-center gap-12 shrink-0">
-              {['Sequoia','Accel','YC','Lightspeed','Andreessen Horowitz','Tiger Global','Matrix','Khosla','Bessemer','General Catalyst'].map((name, idx) => (
-                <span key={idx} className="text-primary font-display text-lg md:text-xl opacity-80 hover:opacity-100 transition">
-                  {name}
-                </span>
-              ))}
-            </div>
-            <div className="flex items-center gap-12 shrink-0" aria-hidden="true">
-              {['Sequoia','Accel','YC','Lightspeed','Andreessen Horowitz','Tiger Global','Matrix','Khosla','Bessemer','General Catalyst'].map((name, idx) => (
-                <span key={`dup-${idx}`} className="text-primary font-display text-lg md:text-xl opacity-80 hover:opacity-100 transition">
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <style jsx global>{`
           @keyframes marquee {
             0% { transform: translateX(0%); }
@@ -421,41 +430,18 @@ export default function HomePage() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-display font-bold text-foreground mb-4">
-            Success Stories
+            An End-to-End StartUp Ecosystem
           </h2>
           <p className="text-lg font-sans text-muted-foreground">
-            See how entrepreneurs are building amazing teams
+            A digital startup ecosystem that acts as an operating system for founders — guiding them from idea validation to team formation, execution, and funding, all inside one structured platform starting from colleges
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Rohit Taneja",
-              title: "CEO, TechFlow",
-              content: "Crystul helped me find the perfect CTO for my SaaS startup. The matching algorithm is incredibly accurate!",
-              rating: 5
-            },
-            {
-              name: "Marcus Johnson",
-              title: "Founder, EcoCart",
-              content: "The collaboration tools are game-changing. We went from idea to MVP in just 3 months.",
-              rating: 5
-            },
-            {
-              name: "Priety Thapar",
-              title: "Co-founder, HealthSync",
-              content: "Found my business partner here and we&apos;ve already raised our seed round. Highly recommend!",
-              rating: 5
-            }
-          ].map((testimonial, index) => (
+          {testimonials.map((testimonial, index) => (
             <Card key={index} className="border-border bg-card/50 shadow-lg">
               <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-primary fill-current" />
-                  ))}
-                </div>
+                <StarRating rating={testimonial.rating} />
                 <p className="text-muted-foreground mb-4 font-sans">&quot;{testimonial.content}&quot;</p>
                 <div>
                   <div className="font-display font-semibold text-foreground">{testimonial.name}</div>
@@ -602,18 +588,18 @@ export default function HomePage() {
                 <p className="text-lg font-serif font-medium">Contact Us</p>
                 <ul className="mt-8 space-y-4 text-sm">
                   <li>
-                    <Link href="tel:+919876543210"
+                    <Link href="tel:+919311031192"
                     target="_blank" 
                     rel="noopener noreferrer"  
                     className="flex items-center gap-2">
                       <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path d="M3 5a2 2 0 012-2h3.6a1 1 0 01.95.684l1.2 3.6a1 1 0 01-.27 1.04l-2.1 2.1a11.04 11.04 0 005.25 5.25l2.1-2.1a1 1 0 011.04-.27l3.6 1.2a1 1 0 01.684.95V19a2 2 0 01-2 2h-1C8.82 21 3 15.18 3 8V5z"/>
                       </svg>
-                      <span>+91 98765 43210</span>
+                      <span>+91 9311031192</span>
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:work@crystul.com"
+                    <Link href="https://devteotia.netlify.app"
                     target="_blank" 
                     rel="noopener noreferrer"  
                     className="flex items-center gap-2">
