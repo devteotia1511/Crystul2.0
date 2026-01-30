@@ -13,12 +13,10 @@ function ThemeController({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (status === 'authenticated') {
       setTheme('light')
-      // Force a re-render to ensure theme is applied
-      router.refresh()
     } else if (status === 'unauthenticated') {
       setTheme('dark')
     }
-  }, [status, setTheme, router])
+  }, [status, setTheme])
 
   return <>{children}</>
 }
@@ -28,24 +26,28 @@ export function Providers({ children }: { children: React.ReactNode }) {
   
   useEffect(() => {
     setMounted(true)
-    // Remove environment validation from client-side
-    // if (typeof window !== 'undefined') {
-    //   validateEnvironmentVariablesOnStartup()
-    // }
+    console.log('Providers mounted, environment check:', {
+      nodeEnv: process.env.NODE_ENV,
+      hasNextAuthUrl: !!process.env.NEXTAUTH_URL,
+      hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET
+    })
   }, [])
 
   if (!mounted) {
     return (
-      <SessionProvider>
-        <div className="min-h-screen bg-background" />
-      </SessionProvider>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        </div>
+      </div>
     )
   }
 
   return (
     <SessionProvider 
       refetchInterval={0} 
-      refetchOnWindowFocus={true}
+      refetchOnWindowFocus={false}
     >
       <ThemeProvider
         attribute="class"
