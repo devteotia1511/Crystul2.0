@@ -25,13 +25,14 @@ export default function PromotionsPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center">
-            <div className="w-32 h-10 m-2 rounded-full overflow-hidden bg-background/80 border border-border flex items-center justify-center">
-              <img 
-                src="/crystul.png" 
-                alt="Crystul Logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Link href="/" className="relative">
+              <span className="text-2xl font-bold text-white [text-shadow:-0.5px_-0.5px_0_#fff,0.5px_-0.5px_0_#fff,-0.5px_0.5px_0_#fff,0.5px_0.5px_0_#fff]">
+                Crystul
+              </span>
+              <span className="absolute inset-0 text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Crystul
+              </span>
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/">

@@ -77,14 +77,15 @@ export default function LoginPage() {
       {/* Header */}
       <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="w-32 h-10 m-2 rounded-full overflow-hidden bg-background/80 border border-border flex items-center justify-center">
-              <img 
-                src="/crystul.png" 
-                alt="Crystul Logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
+          <div className="flex items-center justify-center">
+            <Link href="/" className="relative">
+              <span className="text-2xl font-bold text-white [text-shadow:-0.5px_-0.5px_0_#fff,0.5px_-0.5px_0_#fff,-0.5px_0.5px_0_#fff,0.5px_0.5px_0_#fff]">
+                Crystul
+              </span>
+              <span className="absolute inset-0 text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Crystul
+              </span>
+            </Link>
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-foreground hover:text-primary hover:bg-primary/10">
@@ -99,13 +100,9 @@ export default function LoginPage() {
         <Card className="w-full max-w-md shadow-xl border-border bg-card/50">
           <CardHeader className="text-center">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-32 h-10 m-2 rounded-full overflow-hidden bg-background/80 border border-border flex items-center justify-center">
-                <img 
-                  src="/crystul.png" 
-                  alt="Crystul Logo" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Crystul
+              </span>
             </div>
             <CardTitle className="text-2xl font-display font-bold text-foreground">Welcome back</CardTitle>
             <CardDescription className="font-sans text-muted-foreground">

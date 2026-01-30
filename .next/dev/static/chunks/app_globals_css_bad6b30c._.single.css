@@ -913,10 +913,6 @@ a:hover {
   height: .625rem;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
 .h-24 {
   height: 6rem;
 }
@@ -2065,6 +2061,12 @@ a:hover {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-primary {
+  --tw-gradient-from: hsl(var(--primary)) var(--tw-gradient-from-position);
+  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-primary\/10 {
   --tw-gradient-from: hsl(var(--primary) / .1) var(--tw-gradient-from-position);
   --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
@@ -2117,6 +2119,10 @@ a:hover {
   --tw-gradient-to: hsl(var(--primary) / .4) var(--tw-gradient-to-position);
 }
 
+.to-primary\/80 {
+  --tw-gradient-to: hsl(var(--primary) / .8) var(--tw-gradient-to-position);
+}
+
 .to-purple-600 {
   --tw-gradient-to: #9333ea var(--tw-gradient-to-position);
 }
@@ -2131,6 +2137,11 @@ a:hover {
 
 .to-transparent {
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
+}
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .fill-current {
@@ -2678,6 +2689,10 @@ a:hover {
   color: hsl(var(--secondary-foreground) / .7);
 }
 
+.text-transparent {
+  color: #0000;
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2963,6 +2978,18 @@ a:hover {
   animation-timing-function: cubic-bezier(.4, 0, .2, 1);
 }
 
+.\[text-shadow\:0_0_2px_rgba\(255\,255\,255\,0\.8\)\] {
+  text-shadow: 0 0 2px #fffc;
+}
+
+.\[text-shadow\:-1px_-1px_0_\#fff\,1px_-1px_0_\#fff\,-1px_1px_0_\#fff\,1px_1px_0_\#fff\] {
+  text-shadow: -1px -1px #fff, 1px -1px #fff, -1px 1px #fff, 1px 1px #fff;
+}
+
+.\[text-shadow\:-0\.5px_-0\.5px_0_\#fff\,0\.5px_-0\.5px_0_\#fff\,-0\.5px_0\.5px_0_\#fff\,0\.5px_0\.5px_0_\#fff\] {
+  text-shadow: -.5px -.5px #fff, .5px -.5px #fff, -.5px .5px #fff, .5px .5px #fff;
+}
+
 .file\:border-0::file-selector-button {
   border-width: 0;
 }
@@ -3050,10 +3077,6 @@ a:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.hover\:border-primary:hover {
-  border-color: hsl(var(--primary));
 }
 
 .hover\:border-primary\/40:hover {

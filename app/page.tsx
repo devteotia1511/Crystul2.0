@@ -96,15 +96,14 @@ export default function HomePage() {
         <div className="container mx-auto px-6 py-3 flex items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center">
-            <div className="w-32 h-10 m-1 flex items-center justify-center">
-              <Image
-                src="/crystul.png"
-                alt="Crystul Logo"
-                width={32}
-                height={10}
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Link href="/" className="relative">
+              <span className="text-2xl font-bold text-white [text-shadow:-0.5px_-0.5px_0_#fff,0.5px_-0.5px_0_#fff,-0.5px_0.5px_0_#fff,0.5px_0.5px_0_#fff]">
+                Crystul
+              </span>
+              <span className="absolute inset-0 text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Crystul
+              </span>
+            </Link>
           </div>
 
           {/* Navigation Links */}
@@ -249,13 +248,9 @@ export default function HomePage() {
           <Card className="border-border bg-card/50 shadow-lg hover:shadow-xl transition-shadow hover:border-primary/40">
             <CardHeader>
               <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                <Image 
-                  src="/crystul.png" 
-                  alt="Crystul Logo" 
-                  width={32} 
-                  height={32} 
-                  className="object-contain"
-                />
+                <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                  C
+                </span>
               </div>
               <CardTitle className="font-display text-foreground">Smart Pitching Platform</CardTitle>
             </CardHeader>

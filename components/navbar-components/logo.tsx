@@ -2,17 +2,13 @@ import Link from 'next/link';
 
 export default function Logo() {
   return (
-    <Link
-      href="/home"
-      className="block m-2 rounded-full overflow-hidden bg-background/80 border border-border hover:border-primary transition-colors duration-300"
-    >
-      <div className="w-full h-20 flex items-center justify-center">
-        <img
-          src="/crystul.png"
-          alt="Crystul Logo"
-          className="w-full h-full object-contain"
-        />
-      </div>
+    <Link href="/home" className="relative">
+      <span className="text-2xl font-bold text-white [text-shadow:-0.5px_-0.5px_0_#fff,0.5px_-0.5px_0_#fff,-0.5px_0.5px_0_#fff,0.5px_0.5px_0_#fff]">
+        Crystul
+      </span>
+      <span className="absolute inset-0 text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+        Crystul
+      </span>
     </Link>
   );
 }
