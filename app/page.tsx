@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Zap, Target, Star, CheckCircle, Menu } from 'lucide-react';
 import Link from 'next/link';
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export default function HomePage() {
@@ -18,13 +19,13 @@ export default function HomePage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  const words = useMemo(() => [
+  const words = [
     'Dream Team',
     'Innovation',
     'Collaboration',
     'Success',
     'Startup'
-  ], []);
+  ];
 
   useEffect(() => {
     if (status === "authenticated" && session) {
@@ -35,11 +36,11 @@ export default function HomePage() {
   // Scroll effect for dynamic header
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Typewriter effect - optimized
+  // Typewriter effect
   useEffect(() => {
     const currentWord = words[currentWordIndex];
     
@@ -47,7 +48,7 @@ export default function HomePage() {
       // Typing out the word
       if (currentText.length < currentWord.length) {
         const timer = setTimeout(() => {
-          setCurrentText(prev => prev + currentWord[prev.length]);
+          setCurrentText(currentWord.slice(0, currentText.length + 1));
         }, 150);
         return () => clearTimeout(timer);
       } else {
@@ -60,10 +61,10 @@ export default function HomePage() {
     } else {
       // Deleting the word
       if (currentText.length > 0) {
-        const timer = setTimeout(() => {
-          setCurrentText(prev => prev.slice(0, -1));
+          const timer = setTimeout(() => {
+            setCurrentText(currentText.slice(0, -1));
         }, 100);
-        return () => clearTimeout(timer);
+          return () => clearTimeout(timer);
       } else {
         setIsDeleting(false);
         setCurrentWordIndex((prev) => (prev + 1) % words.length);
@@ -71,7 +72,7 @@ export default function HomePage() {
     }
   }, [currentText, isDeleting, currentWordIndex, words]);
 
-  // Reset text when word changes - optimized
+  // Reset text when word changes
   useEffect(() => {
     setCurrentText('');
   }, [currentWordIndex]);
@@ -79,54 +80,19 @@ export default function HomePage() {
   // Don't render if already authenticated
   if (status === "authenticated") return null;
 
-  // Dynamic header styles based on scroll - optimized with useMemo
-  const headerStyles = useMemo(() => {
-    const isScrolled = scrollY > 50;
-    return {
-      background: isScrolled 
-        ? 'bg-background/95 backdrop-blur-md border-border shadow-lg' 
-        : 'bg-background/20 backdrop-blur-sm border-transparent',
-      shape: isScrolled 
-        ? 'rounded-none border-b' 
-        : 'mx-4 mt-4 rounded-full border'
-    };
-  }, [scrollY]);
-
-  // Memoize testimonials data for performance
-  const testimonials = useMemo(() => [
-    {
-      name: "Rohit Taneja",
-      title: "CEO, TechFlow",
-      content: "Crystul helped me find the perfect CTO for my SaaS startup. The matching algorithm is incredibly accurate!",
-      rating: 5
-    },
-    {
-      name: "Devendra Sharma",
-      title: "Founder, EcoCart",
-      content: "The collaboration tools are game-changing. We went from idea to MVP in just 3 months.",
-      rating: 5
-    },
-    {
-      name: "Priety Thapar",
-      title: "Co-founder, HealthSync",
-      content: "Found my business partner here and we&apos;ve already raised our seed round. Highly recommend!",
-      rating: 5
-    }
-  ], []);
-
-  // Memoize star rating component
-  const StarRating = useCallback(({ rating }: { rating: number }) => (
-    <div className="flex mb-4">
-      {[...Array(rating)].map((_, i) => (
-        <Star key={i} className="w-4 h-4 text-primary fill-current" />
-      ))}
-    </div>
-  ), []);
+  // Dynamic header styles based on scroll
+  const isScrolled = scrollY > 50;
+  const headerBackground = isScrolled 
+    ? 'bg-background/95 backdrop-blur-md border-border shadow-lg' 
+    : 'bg-background/20 backdrop-blur-sm border-transparent';
+  const headerShape = isScrolled 
+    ? 'rounded-none border-b' 
+    : 'mx-4 mt-4 rounded-full border';
 
   return (
     <div className="min-h-screen bg-background">
       {/* Dynamic Navigation Header */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerStyles.background} ${headerStyles.shape}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBackground} ${headerShape}`}>
         <div className="container mx-auto px-6 py-3 flex items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center">
@@ -438,10 +404,33 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {[
+            {
+              name: "Rohit Taneja",
+              title: "CEO, TechFlow",
+              content: "Crystul helped me find the perfect CTO for my SaaS startup. The matching algorithm is incredibly accurate!",
+              rating: 5
+            },
+            {
+              name: "Devendra Sharma",
+              title: "Founder, EcoCart",
+              content: "The collaboration tools are game-changing. We went from idea to MVP in just 3 months.",
+              rating: 5
+            },
+            {
+              name: "Priety Thapar",
+              title: "Co-founder, HealthSync",
+              content: "Found my business partner here and we&apos;ve already raised our seed round. Highly recommend!",
+              rating: 5
+            }
+          ].map((testimonial, index) => (
             <Card key={index} className="border-border bg-card/50 shadow-lg">
               <CardContent className="p-6">
-                <StarRating rating={testimonial.rating} />
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-primary fill-current" />
+                  ))}
+                </div>
                 <p className="text-muted-foreground mb-4 font-sans">&quot;{testimonial.content}&quot;</p>
                 <div>
                   <div className="font-display font-semibold text-foreground">{testimonial.name}</div>

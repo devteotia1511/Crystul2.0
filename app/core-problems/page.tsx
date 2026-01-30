@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ export default function CoreProblemsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
-  const coreProblems = useMemo(() => [
+  const coreProblems = [
     {
       id: 1,
       title: "Gap Between Idea and Execution",
@@ -73,22 +73,7 @@ export default function CoreProblemsPage() {
       image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&crop=center&auto=format",
       color: "from-purple-500/20 to-pink-500/20"
     }
-  ], []);
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlay(false);
-  }, []);
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % coreProblems.length);
-    setIsAutoPlay(false);
-  }, [coreProblems.length]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + coreProblems.length) % coreProblems.length);
-    setIsAutoPlay(false);
-  }, [coreProblems.length]);
+  ];
 
   useEffect(() => {
     if (status === "authenticated" && session) {
@@ -104,6 +89,21 @@ export default function CoreProblemsPage() {
       return () => clearInterval(timer);
     }
   }, [isAutoPlay, coreProblems.length]);
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+    setIsAutoPlay(false);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % coreProblems.length);
+    setIsAutoPlay(false);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + coreProblems.length) % coreProblems.length);
+    setIsAutoPlay(false);
+  };
 
   if (status === "authenticated") return null;
 

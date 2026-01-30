@@ -3,6 +3,7 @@
 import { SessionProvider, useSession } from 'next-auth/react'
 import { ThemeProvider, useTheme as useNextTheme } from '@/components/theme-provider'
 import { useEffect, useState } from 'react'
+import { validateEnvironmentVariablesOnStartup } from '@/lib/env-validation'
 import { useRouter } from 'next/navigation'
 
 function ThemeController({ children }: { children: React.ReactNode }) {
@@ -13,10 +14,12 @@ function ThemeController({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (status === 'authenticated') {
       setTheme('light')
+      // Force a re-render to ensure theme is applied
+      router.refresh()
     } else if (status === 'unauthenticated') {
       setTheme('dark')
     }
-  }, [status, setTheme])
+  }, [status, setTheme, router])
 
   return <>{children}</>
 }
@@ -26,28 +29,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
   
   useEffect(() => {
     setMounted(true)
-    console.log('Providers mounted, environment check:', {
-      nodeEnv: process.env.NODE_ENV,
-      hasNextAuthUrl: !!process.env.NEXTAUTH_URL,
-      hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET
-    })
+    if (typeof window !== 'undefined') {
+      validateEnvironmentVariablesOnStartup()
+    }
   }, [])
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-sm text-muted-foreground">Loading...</p>
-        </div>
-      </div>
+      <SessionProvider>
+        <div className="min-h-screen bg-background" />
+      </SessionProvider>
     )
   }
 
   return (
     <SessionProvider 
       refetchInterval={0} 
-      refetchOnWindowFocus={false}
+      refetchOnWindowFocus={true}
     >
       <ThemeProvider
         attribute="class"
