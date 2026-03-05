@@ -13,11 +13,11 @@ export default function AiAssistantPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "authenticated" && session) {
-      router.push('/ai-assistant/chat');
-    }
-  }, [status, session, router]);
+  // If authenticated, redirect immediately
+  if (status === "authenticated" && session) {
+    router.push('/ai-assistant/chat');
+    return null;
+  }
 
   // Show loading state while checking authentication
   if (status === "loading") {
@@ -35,9 +35,6 @@ export default function AiAssistantPage() {
       </div>
     );
   }
-
-  // If authenticated, don't render anything (redirect will happen)
-  if (status === "authenticated") return null;
 
   // Only show landing page if not authenticated
 
