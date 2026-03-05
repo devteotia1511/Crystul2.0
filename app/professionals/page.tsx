@@ -41,7 +41,7 @@ const mockProfessionals: Professional[] = [
     domain: ['SaaS', 'Product Strategy', 'Fundraising'],
     rating: 4.9,
     reviews: 127,
-    hourlyRate: 1500,
+    hourlyRate: 250,
     location: 'San Francisco, CA',
     bio: 'Serial entrepreneur with 3 successful exits. Specialized in early-stage SaaS companies.',
   },
@@ -54,7 +54,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Engineering', 'AI/ML', 'Cloud Architecture'],
     rating: 4.8,
     reviews: 98,
-    hourlyRate: 1400,
+    hourlyRate: 220,
     location: 'Seattle, WA',
     bio: 'Former Principal Engineer at Amazon. Expert in building scalable systems.',
   },
@@ -67,7 +67,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Growth Marketing', 'Brand Strategy', 'B2B Sales'],
     rating: 4.9,
     reviews: 156,
-    hourlyRate: 1300,
+    hourlyRate: 200,
     location: 'New York, NY',
     bio: 'Led marketing for 3 unicorn startups. Expert in scaling from 0 to 10M ARR.',
   },
@@ -80,7 +80,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Finance', 'Fundraising', 'M&A'],
     rating: 4.7,
     reviews: 89,
-    hourlyRate: 1450,
+    hourlyRate: 280,
     location: 'Boston, MA',
     bio: 'Previously CFO at 2 public companies. Raised over $500M in venture capital.',
   },
@@ -93,7 +93,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Operations', 'Scaling', 'Process Optimization'],
     rating: 4.8,
     reviews: 103,
-    hourlyRate: 1350,
+    hourlyRate: 230,
     location: 'Austin, TX',
     bio: 'Operations expert who scaled 5 companies from 10 to 500+ employees.',
   },
@@ -106,7 +106,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Product Management', 'UX Strategy', 'Innovation'],
     rating: 4.9,
     reviews: 134,
-    hourlyRate: 1250,
+    hourlyRate: 210,
     location: 'San Jose, CA',
     bio: 'Built products used by 100M+ users. Led product at multiple Fortune 500s.',
   },
@@ -119,7 +119,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Engineering Leadership', 'DevOps', 'Security'],
     rating: 4.8,
     reviews: 76,
-    hourlyRate: 1200,
+    hourlyRate: 240,
     location: 'Denver, CO',
     bio: 'Expert in building and leading world-class engineering teams.',
   },
@@ -132,7 +132,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Business Strategy', 'Market Entry', 'Partnerships'],
     rating: 4.7,
     reviews: 92,
-    hourlyRate: 1100,
+    hourlyRate: 270,
     location: 'Chicago, IL',
     bio: 'Strategy consultant turned startup advisor. Helped 20+ startups find PMF.',
   },
@@ -145,7 +145,7 @@ const mockProfessionals: Professional[] = [
     domain: ['Enterprise Sales', 'Revenue Growth', 'Team Building'],
     rating: 4.9,
     reviews: 142,
-    hourlyRate: 1000,
+    hourlyRate: 190,
     location: 'Miami, FL',
     bio: 'Built and scaled sales teams generating $50M+ in annual revenue.',
   },
@@ -275,7 +275,7 @@ export default function ProfessionalsPage() {
                       <div>
                         <p className="text-xs text-muted-foreground">Hourly Rate</p>
                         <p className="text-2xl font-bold text-foreground">
-                          ₹{professional.hourlyRate}
+                          ${professional.hourlyRate}
                         </p>
                       </div>
                       <Clock className="h-5 w-5 text-muted-foreground" />

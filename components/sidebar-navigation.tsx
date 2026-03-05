@@ -35,7 +35,7 @@ const navigationItems = [
   { href: '/home', label: 'Home', icon: Home },
   { href: '/explore', label: 'Explore', icon: Compass },
   { href: '/search', label: 'Search', icon: Search },
-  { href: '/ai-assistant/chat', label: 'AI Assistant', icon: Bot },
+  { href: '/ai-assistant', label: 'AI Assistant', icon: Bot },
   { href: '/professionals', label: 'Professionals', icon: Briefcase },
   { href: '/fund-raiser', label: 'Fund Raiser', icon: HandCoins },
   { href: '/create', label: 'Create', icon: PlusSquare },
