@@ -1,232 +1,329 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
-import AuthenticatedLayout from '@/components/authenticated-layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Send, Sparkles, Plus, Menu } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { cn } from '@/lib/utils';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
-
-const SUGGESTIONS = [
-  "How do I find the right co-founder?",
-  "What legal documents do I need to start?",
-  "Help me create a go-to-market strategy",
-  "How should I structure my founding team?",
-];
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowRight, Sparkles, Brain, Target, Users, TrendingUp, Shield, Zap, MessageSquare, Lightbulb, CheckCircle } from 'lucide-react';
 
 export default function AiAssistantPage() {
-  const { data: session } = useSession();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    // Auto-scroll to bottom when new messages arrive
-    if (scrollAreaRef.current) {
-      const scrollElement = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      if (scrollElement) {
-        scrollElement.scrollTop = scrollElement.scrollHeight;
-      }
+    if (status === "authenticated" && session) {
+      router.push('/ai-assistant/chat');
     }
-  }, [messages]);
+  }, [status, session, router]);
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  if (status === "authenticated") return null;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input,
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
-    // Simulate AI response
-    setTimeout(() => {
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: `I understand you're asking about: "${input}". This is a simulated response. The AI Assistant is currently under development and will provide intelligent guidance on startup building, team formation, legal requirements, and strategic planning.`,
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 1500);
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setInput(suggestion);
-    inputRef.current?.focus();
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
+  const aiCapabilities = [
+    {
+      icon: Brain,
+      title: "Ideation & Concept Development",
+      description: "Generate and refine startup ideas, identify market opportunities, and develop unique value propositions",
+      features: [
+        "AI-powered idea generation",
+        "Market gap analysis",
+        "Competitor landscape mapping",
+        "Business model suggestions"
+      ]
+    },
+    {
+      icon: Target,
+      title: "Strategic Planning",
+      description: "Create comprehensive roadmaps, set milestones, and develop actionable strategies for growth",
+      features: [
+        "Go-to-market strategies",
+        "Product roadmap planning",
+        "Milestone definition",
+        "Growth hacking tactics"
+      ]
+    },
+    {
+      icon: Users,
+      title: "Team Building & Management",
+      description: "Optimize team structure, define roles, and provide leadership guidance for startup success",
+      features: [
+        "Team composition analysis",
+        "Role definition frameworks",
+        "Conflict resolution strategies",
+        "Leadership development"
+      ]
+    },
+    {
+      icon: TrendingUp,
+      title: "Market Analysis & Insights",
+      description: "Analyze market trends, customer behavior, and competitive positioning for data-driven decisions",
+      features: [
+        "Market size estimation",
+        "Customer personal development",
+        "Competitive analysis",
+        "Trend forecasting"
+      ]
+    },
+    {
+      icon: Shield,
+      title: "Risk Assessment & Mitigation",
+      description: "Identify potential risks and develop strategies to minimize startup failure probability",
+      features: [
+        "Risk matrix analysis",
+        "Contingency planning",
+        "Legal compliance guidance",
+        "Financial risk modeling"
+      ]
+    },
+    {
+      icon: Zap,
+      title: "Operational Excellence",
+      description: "Streamline processes, optimize workflows, and implement best practices for efficient execution",
+      features: [
+        "Process optimization",
+        "Resource allocation",
+        "Performance metrics",
+        "Automation strategies"
+      ]
     }
-  };
+  ];
+
+  const cofounderBenefits = [
+    {
+      icon: MessageSquare,
+      title: "24/7 Availability",
+      description: "Your AI cofounder is always available to discuss ideas, solve problems, and provide guidance"
+    },
+    {
+      icon: Lightbulb,
+      title: "Unbiased Perspective",
+      description: "Get objective, data-driven insights without emotional bias or personal agendas"
+    },
+    {
+      icon: CheckCircle,
+      title: "Proven Methodologies",
+      description: "Access to frameworks and strategies from thousands of successful startups and research"
+    }
+  ];
 
   return (
-    <AuthenticatedLayout>
-      <div className="w-full h-[calc(100vh-4rem)] lg:h-screen flex flex-col bg-background">
-        {/* Header - Bolt.new style */}
-        <div className="border-b border-border bg-background/95 backdrop-blur-sm">
-          <div className="max-w-5xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Sparkles className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h1 className="text-xl font-semibold">AI Assistant</h1>
-                  <p className="text-xs text-muted-foreground">Your startup building companion</p>
-                </div>
-              </div>
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="h-5 w-5" />
+    <div className="min-h-screen bg-background">
+      {/* Navigation Header */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+        <div className="container mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center">
+            <Link href="/" className="relative">
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Crystul
+              </span>
+            </Link>
+          </div>
+
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/ai-assistant">
+              <span className="text-primary font-heading transition-colors font-medium">AI Assistant</span>
+            </Link>
+            <Link href="/core-problems">
+              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Core Problems</span>
+            </Link>
+            <Link href="/our-solutions">
+              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Our Solution</span>
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <Link href="/auth/login">
+              <Button variant="ghost" className="text-foreground hover:text-primary hover:bg-primary/10">
+                Sign In
               </Button>
+            </Link>
+            <Link href="/auth/register">
+              <Button className="bg-primary text-primary-foreground font-medium hover:opacity-90 shadow-lg">
+                Get Started
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-24 pb-12">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 bg-primary/10 rounded-2xl">
+              <Sparkles className="h-12 w-12 text-primary" />
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+            Meet Your AI <span className="text-primary">Co-founder</span>
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            The intelligent companion that guides you through every stage of your startup journey, from ideation to scaling
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/register">
+              <Button size="lg" className="bg-primary text-primary-foreground hover:opacity-90 text-lg px-8 py-6 font-semibold">
+                Start Building with AI <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <Link href="/core-problems">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary hover:bg-primary hover:text-primary-foreground">
+                Understand Startup Challenges
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* What is AI Co-founder Section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-6">
+            What Makes an AI Co-founder Revolutionary?
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Traditional co-founders bring human expertise, but our AI Co-founder combines the knowledge of thousands of successful entrepreneurs, 
+            data-driven insights, and instant availability to provide guidance that's both comprehensive and immediately accessible.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {cofounderBenefits.map((benefit, index) => (
+            <Card key={index} className="border-border bg-card/50 shadow-lg text-center p-8">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                <benefit.icon className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3">{benefit.title}</h3>
+              <p className="text-muted-foreground">{benefit.description}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
+            How Your AI Co-founder Works
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Simple, intuitive interaction that delivers powerful insights
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
+                <span className="text-2xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="font-bold text-lg text-foreground mb-2">Ask Anything</h3>
+              <p className="text-sm text-muted-foreground">Describe your challenge, idea, or question in natural language</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
+                <span className="text-2xl font-bold text-primary">2</span>
+              </div>
+              <h3 className="font-bold text-lg text-foreground mb-2">AI Analysis</h3>
+              <p className="text-sm text-muted-foreground">Our AI processes your request using vast startup knowledge and data</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
+                <span className="text-2xl font-bold text-primary">3</span>
+              </div>
+              <h3 className="font-bold text-lg text-foreground mb-2">Get Insights</h3>
+              <p className="text-sm text-muted-foreground">Receive actionable advice, strategies, and specific recommendations</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
+                <span className="text-2xl font-bold text-primary">4</span>
+              </div>
+              <h3 className="font-bold text-lg text-foreground mb-2">Execute & Iterate</h3>
+              <p className="text-sm text-muted-foreground">Implement the guidance and return for continuous optimization</p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Main Content Area */}
-        <div className="flex-1 overflow-hidden">
-          <div className="max-w-5xl mx-auto h-full flex flex-col">
-            {/* Messages Area */}
-            {messages.length === 0 ? (
-              /* Welcome Screen */
-              <div className="flex-1 flex flex-col items-center justify-center px-4 py-12">
-                <div className="p-4 bg-primary/10 rounded-2xl mb-6">
-                  <Sparkles className="h-16 w-16 text-primary" />
-                </div>
-                <h2 className="text-3xl font-bold mb-3 text-center">Welcome to AI Assistant</h2>
-                <p className="text-muted-foreground text-center max-w-md mb-8">
-                  Ask me anything about building your startup, forming teams, legal requirements, or strategic planning.
-                </p>
+      {/* AI Capabilities Grid */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
+            Complete Startup Intelligence
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Your AI Co-founder provides expertise across all critical startup domains
+          </p>
+        </div>
 
-                {/* Suggestions */}
-                <div className="w-full max-w-2xl">
-                  <p className="text-sm font-medium mb-3 px-4">Try asking:</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-4">
-                    {SUGGESTIONS.map((suggestion, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="p-4 text-left border border-border rounded-lg hover:border-primary/50 hover:bg-muted/50 transition-all group"
-                      >
-                        <p className="text-sm group-hover:text-primary transition-colors">
-                          {suggestion}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {aiCapabilities.map((capability, index) => (
+            <Card key={index} className="border-border bg-card/50 shadow-lg hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <capability.icon className="w-6 h-6 text-primary" />
                 </div>
-              </div>
-            ) : (
-              /* Chat Messages */
-              <ScrollArea ref={scrollAreaRef} className="flex-1 px-4">
-                <div className="max-w-3xl mx-auto py-8 space-y-6">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={cn(
-                        "flex gap-4",
-                        message.role === 'user' ? "justify-end" : "justify-start"
-                      )}
-                    >
-                      {message.role === 'assistant' && (
-                        <Avatar className="h-8 w-8 border-2 border-primary/20">
-                          <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                            <Sparkles className="h-4 w-4" />
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
-                      <div
-                        className={cn(
-                          "rounded-2xl px-4 py-3 max-w-[80%]",
-                          message.role === 'user'
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted"
-                        )}
-                      >
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      </div>
-                      {message.role === 'user' && (
-                        <Avatar className="h-8 w-8 border-2 border-primary/20">
-                          <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                            {session?.user?.name?.charAt(0) || 'U'}
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
+                <CardTitle className="text-xl font-semibold text-foreground">{capability.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">{capability.description}</p>
+                <div className="space-y-2">
+                  {capability.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-start">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-sm text-foreground">{feature}</span>
                     </div>
                   ))}
-                  {isLoading && (
-                    <div className="flex gap-4 justify-start">
-                      <Avatar className="h-8 w-8 border-2 border-primary/20">
-                        <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                          <Sparkles className="h-4 w-4" />
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="bg-muted rounded-2xl px-4 py-3">
-                        <div className="flex space-x-2">
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" />
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
-              </ScrollArea>
-            )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-            {/* Input Area - Fixed at bottom, Bolt.new style */}
-            <div className="border-t border-border bg-background/95 backdrop-blur-sm">
-              <div className="max-w-3xl mx-auto px-4 py-4">
-                <div className="flex items-end space-x-2">
-                  <div className="flex-1 relative">
-                    <Input
-                      ref={inputRef}
-                      placeholder="Ask me anything about building your startup..."
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      className="pr-12 py-6 text-base resize-none"
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <Button
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    size="lg"
-                    className="px-6"
-                  >
-                    <Send className="h-5 w-5" />
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2 text-center">
-                  AI Assistant is in beta. Responses may not always be accurate.
-                </p>
-              </div>
+      {/* CTA Section */}
+      <section className="bg-primary py-20 mt-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+            Ready to Meet Your AI Co-founder?
+          </h2>
+          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
+            Join thousands of entrepreneurs who are building successful startups with AI guidance
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/register">
+              <Button size="lg" variant="secondary" className="bg-background text-primary hover:bg-muted font-semibold text-lg px-8 py-6">
+                Start Your AI Journey <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <Link href="/our-solutions">
+              <Button size="lg" variant="outline" className="border-background bg-transparent text-background hover:bg-background hover:text-primary font-semibold text-lg px-8 py-6">
+                Explore Our Solution
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-card border-t border-border text-foreground py-16 w-full rounded-t-xl">
+        <div className="mx-auto max-w-screen-xl px-4 pt-8 pb-6 sm:px-6 lg:px-8 lg:pt-12">
+          <div className="text-center">
+            <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-6">
+              Crystul
+            </div>
+            <p className="text-foreground/50 max-w-md mx-auto leading-relaxed">
+              Building successful startup teams through intelligent matchmaking. Connect with like-minded entrepreneurs, find your perfect co-founders, and turn your startup ideas into reality.
+            </p>
+            <div className="mt-8 border-t border-border pt-6">
+              <p className="text-sm text-foreground/70">
+                &copy; 2024 Crystul. Building the future of startup collaboration.
+              </p>
             </div>
           </div>
         </div>
-      </div>
-    </AuthenticatedLayout>
+      </footer>
+    </div>
   );
 }

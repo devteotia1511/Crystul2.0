@@ -127,6 +127,9 @@ export default function CoreProblemsPage() {
             <Link href="/core-problems">
               <span className="text-primary font-heading transition-colors font-medium">Core Problems</span>
             </Link>
+            <Link href="/our-solutions">
+              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Our Solution</span>
+            </Link>
           </div>
 
           <div className="flex items-center space-x-4">

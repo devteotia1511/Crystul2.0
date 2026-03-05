@@ -114,6 +114,9 @@ export default function HomePage() {
             <Link href="/core-problems">
               <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Core Problems</span>
             </Link>
+            <Link href="/our-solutions">
+              <span className="text-foreground hover:text-primary font-heading transition-colors font-medium">Our Solution</span>
+            </Link>
           </div>
 
           {/* Action Buttons */}
@@ -257,7 +260,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center mb-4">
                 <Zap className="w-6 h-6 text-secondary-foreground" />
               </div>
-              <CardTitle className="font-display text-foreground">Team Making & Networking Platform</CardTitle>
+              <CardTitle className="font-display text-foreground">Team Making & Networking</CardTitle>
             </CardHeader>
           </Card>
 
@@ -282,14 +285,8 @@ export default function HomePage() {
           <Card className="border-border bg-card/50 shadow-lg hover:shadow-xl transition-shadow hover:border-primary/40">
             <CardHeader>
             <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                <Image 
-                  src="/crystul.png" 
-                  alt="Crystul Logo" 
-                  width={32} 
-                  height={32} 
-                  className="object-contain"
-                />
-              </div>
+                <span className="text-2xl font-bold text-primary">C</span>
+            </div>
               <CardTitle className="font-display text-foreground"> Connect with C-Suite Executives</CardTitle>
             </CardHeader>
           </Card>
@@ -392,56 +389,6 @@ export default function HomePage() {
         `}</style>
       </section>
 
-      {/* Testimonials */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-4">
-            An End-to-End StartUp Ecosystem
-          </h2>
-          <p className="text-lg font-sans text-muted-foreground">
-            A digital startup ecosystem that acts as an operating system for founders — guiding them from idea validation to team formation, execution, and funding, all inside one structured platform starting from colleges
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Rohit Taneja",
-              title: "CEO, TechFlow",
-              content: "Crystul helped me find the perfect CTO for my SaaS startup. The matching algorithm is incredibly accurate!",
-              rating: 5
-            },
-            {
-              name: "Devendra Sharma",
-              title: "Founder, EcoCart",
-              content: "The collaboration tools are game-changing. We went from idea to MVP in just 3 months.",
-              rating: 5
-            },
-            {
-              name: "Priety Thapar",
-              title: "Co-founder, HealthSync",
-              content: "Found my business partner here and we&apos;ve already raised our seed round. Highly recommend!",
-              rating: 5
-            }
-          ].map((testimonial, index) => (
-            <Card key={index} className="border-border bg-card/50 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-primary fill-current" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4 font-sans">&quot;{testimonial.content}&quot;</p>
-                <div>
-                  <div className="font-display font-semibold text-foreground">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground font-sans">{testimonial.title}</div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="bg-primary py-20">
         <div className="container mx-auto px-4 text-center">
@@ -473,13 +420,7 @@ export default function HomePage() {
             <div>
             <div className="flex justify-center sm:justify-start">
             <div className="w-32 h-10 m-1 flex items-center justify-center">
-              <Image
-                src="/crystul.png"
-                alt="Crystul Logo"
-                width={32}
-                height={10}
-                className="w-full h-full object-contain"
-              />
+                <span className="text-xl font-bold text-primary">Crystul</span>
             </div>
               </div>
 
