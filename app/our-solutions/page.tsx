@@ -6,7 +6,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Lightbulb, CheckCircle, Users, Target, DollarSign, ChevronRight, Zap, Shield, Rocket } from 'lucide-react';
+import { ArrowRight, Sparkles, Brain, Target, Users, TrendingUp, Shield, Zap, MessageSquare, Lightbulb, CheckCircle, Menu, DollarSign, Rocket } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export default function OurSolutionsPage() {
   const { data: session, status } = useSession();
@@ -105,6 +106,34 @@ export default function OurSolutionsPage() {
               </Button>
             </Link>
           </div>
+
+          {/* Mobile Menu */}
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-9 w-9 p-0 text-foreground hover:text-primary hover:bg-primary/10">
+                    <Menu className="h-6 w-6" />
+                  </Button>
+              </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-card border-border">
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                  <Link href="/ai-assistant">AI Assistant</Link>
+                </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                    <Link href="/core-problems">Core Problems</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                  <Link href="/our-solutions">Our Solution</Link>
+                </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                  <Link href="/auth/login">Sign In</Link>
+                </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                  <Link href="/auth/register">Get Started</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            </div>
         </div>
       </nav>
 

@@ -146,11 +146,11 @@ export default function HomePage() {
                   <Link href="/ai-assistant">AI Assistant</Link>
                 </DropdownMenuItem>
                   <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
-                  <Link href="/connect-founders">Connect with Founders</Link>
-                </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
                     <Link href="/core-problems">Core Problems</Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
+                  <Link href="/our-solutions">Our Solution</Link>
+                </DropdownMenuItem>
                   <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
                   <Link href="/auth/login">Sign In</Link>
                 </DropdownMenuItem>
