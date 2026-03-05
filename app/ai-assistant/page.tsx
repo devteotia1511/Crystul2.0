@@ -19,7 +19,27 @@ export default function AiAssistantPage() {
     }
   }, [status, session, router]);
 
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <h1 className="text-xl font-display font-semibold text-foreground mb-2">
+            Loading...
+          </h1>
+          <p className="text-muted-foreground font-sans">
+            Please wait while we load your content.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // If authenticated, don't render anything (redirect will happen)
   if (status === "authenticated") return null;
+
+  // Only show landing page if not authenticated
 
   const aiCapabilities = [
     {
