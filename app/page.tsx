@@ -423,99 +423,16 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
-              <div className="text-center sm:text-left">
-                <p className="text-lg font-serif font-medium">About Us</p>
-                <ul className="mt-8 space-y-4 text-sm">
-                  <li>
-                    <Link href="/about" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Our Story
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/team" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Meet the Team
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/careers" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Careers
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/press" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Press & Media
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            {/* Empty middle column for spacing */}
+            <div className="hidden lg:block"></div>
 
-              <div className="text-center sm:text-left">
-                <p className="text-lg font-serif font-medium">Our Services</p>
-                <ul className="mt-8 space-y-4 text-sm">
-                  <li>
-                    <Link href="/ai-assistant" className="text-secondary-foreground/70 hover:text-primary transition">
-                      AI Assistant
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/connect-founders" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Founder Matching
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/explore" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Team Discovery
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/pricing" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Pricing Plans
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="text-center sm:text-left">
-                <p className="text-lg font-serif font-medium">Helpful Links</p>
-                <ul className="mt-8 space-y-4 text-sm">
-                  <li>
-                    <Link href="/help" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/support" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Support
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/chat" className="group flex justify-center gap-1.5 sm:justify-start">
-                      <span className="text-secondary-foreground/70 hover:text-primary transition">
-                        Live Chat
-                      </span>
-                      <span className="relative flex size-2">
-                        <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
-                        <span className="bg-primary relative inline-flex size-2 rounded-full" />
-                      </span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/blog" className="text-secondary-foreground/70 hover:text-primary transition">
-                      Blog & News
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="text-center sm:text-left">
-                <p className="text-lg font-serif font-medium">Contact Us</p>
+            <div className="text-center sm:text-left lg:text-right">
                 <ul className="mt-8 space-y-4 text-sm">
                   <li>
                     <Link href="tel:+919311031192"
                     target="_blank" 
                     rel="noopener noreferrer"  
-                    className="flex items-center gap-2">
+                    className="flex items-center gap-2 sm:justify-end lg:justify-start">
                       <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path d="M3 5a2 2 0 012-2h3.6a1 1 0 01.95.684l1.2 3.6a1 1 0 01-.27 1.04l-2.1 2.1a11.04 11.04 0 005.25 5.25l2.1-2.1a1 1 0 011.04-.27l3.6 1.2a1 1 0 01.684.95V19a2 2 0 01-2 2h-1C8.82 21 3 15.18 3 8V5z"/>
                       </svg>
@@ -526,7 +443,7 @@ export default function HomePage() {
                     <Link href="https://devteotia.netlify.app"
                     target="_blank" 
                     rel="noopener noreferrer"  
-                    className="flex items-center gap-2">
+                    className="flex items-center gap-2 sm:justify-end lg:justify-start">
                       <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path d="M3 8l9 6 9-6"/>
                         <path d="M21 8v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8"/>
@@ -539,7 +456,7 @@ export default function HomePage() {
                     <Link href="https://instagram.com/crystul_official"
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="flex items-center gap-2">
+                    className="flex items-center gap-2 sm:justify-end lg:justify-start">
                       <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2z"/>
                         <circle cx="12" cy="12" r="3.5"/>
@@ -553,7 +470,7 @@ export default function HomePage() {
                       href="https://linkedin.com/company/crystul" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 sm:justify-end lg:justify-start"
                     >
                       <svg 
                         className="w-5 h-5 text-primary" 
@@ -567,8 +484,6 @@ export default function HomePage() {
                     </Link>
                   </li>
                 </ul>
-              </div>
-              
             </div>
           </div>
 
@@ -579,7 +494,7 @@ export default function HomePage() {
               </p>
 
               <p className="text-secondary-foreground/70 mt-4 text-sm transition sm:order-first sm:mt-0">
-                &copy; 2024 Crystul. Building the future of startup collaboration.
+                &copy; 2026 Crystul. Building the future of startup collaboration.
               </p>
             </div>
           </div>

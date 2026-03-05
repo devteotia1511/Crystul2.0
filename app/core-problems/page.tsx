@@ -333,7 +333,7 @@ export default function CoreProblemsPage() {
             </p>
             <div className="mt-8 border-t border-border pt-6">
               <p className="text-sm text-foreground/70">
-                &copy; 2024 Crystul. Building the future of startup collaboration.
+                &copy; 2026 Crystul. Building the future of startup collaboration.
               </p>
             </div>
           </div>

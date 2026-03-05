@@ -281,7 +281,7 @@ export default function PricingPage() {
               </div>
             </div>
             <div className="text-muted-foreground font-sans">
-              © 2024 Crystul. All rights reserved.
+              © 2026 Crystul. All rights reserved.
             </div>
           </div>
         </div>
