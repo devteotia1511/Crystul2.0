@@ -11,3 +11,10 @@ Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
 [00:02:39.960] Server  LOG      ✓ Compiled in 168ms
 [00:03:12.399] Server  LOG      ✓ Compiled in 220ms
 [00:04:09.837] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:59:03.520] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:59:03.634] Browser WARN    Image with src "/image1.png" has legacy prop "layout". Did you forget to run the codemod?
+Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
+[00:59:03.634] Browser WARN    Image with src "/image2.png" has legacy prop "layout". Did you forget to run the codemod?
+Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
+[00:59:03.634] Browser WARN    Image with src "/image4.png" has legacy prop "layout". Did you forget to run the codemod?
+Read more: https://nextjs.org/docs/messages/next-image-upgrade-to-13
