@@ -33,6 +33,10 @@ export default function AiAssistantPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    console.log('Chat Page - Session:', session);
+  }, [session]);
+
+  useEffect(() => {
     // Auto-scroll to bottom when new messages arrive
     if (scrollAreaRef.current) {
       const scrollElement = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');

@@ -14,12 +14,40 @@ export default function AiAssistantPage() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log('AI Assistant Page - Status:', status);
+    console.log('AI Assistant Page - Session:', session);
+    
     if (status === "authenticated" && session) {
+      console.log('Redirecting to chat...');
       router.push('/ai-assistant/chat');
     }
   }, [status, session, router]);
 
-  if (status === "authenticated") return null;
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <h1 className="text-xl font-display font-semibold text-foreground mb-2">
+            Loading...
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "authenticated") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <h1 className="text-xl font-display font-semibold text-foreground mb-2">
+            Redirecting to chat...
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   const aiCapabilities = [
     {
