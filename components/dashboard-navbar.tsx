@@ -46,7 +46,7 @@ const navigationLinks = [
   { href: '/teams', label: 'Teams', icon: Users },
   { href: '/explore', label: 'Explore', icon: Search },
   { href: '/chat', label: 'Chat', icon: MessageSquare },
-  { href: '/ai-assistant', label: 'AI Assistant', icon: Bot },
+  { href: '/ai-assistant/chat', label: 'AI Assistant', icon: Bot },
   { href: '/connect-founders', label: 'Connect', icon: UserPlus },
 ];
 
