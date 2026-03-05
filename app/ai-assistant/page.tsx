@@ -164,12 +164,6 @@ export default function AiAssistantPage() {
                   <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
                   <Link href="/our-solutions">Our Solution</Link>
                 </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
-                  <Link href="/auth/login">Sign In</Link>
-                </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="text-foreground hover:text-primary hover:bg-primary/10">
-                  <Link href="/auth/register">Get Started</Link>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             </div>
